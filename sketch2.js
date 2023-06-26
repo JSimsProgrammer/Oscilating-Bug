@@ -20,7 +20,31 @@ class Crawler {
   } 
 
   display(){
+    ellipseMode(CENTER);
+    stroke(0);
+    fill(175);
+    push()
+    translate(xOffset, height / 2 + this.yOffset);
+    for (let pos = 200; pos <= width - 200; pos += 15) {
+      let x = this.amplitudeX * cos(this.angleX + pos / 25);
+      let y = this.amplitudeY * sin(this.angleY + pos / 150);
+      
+      strokeWeight(1);
+      ellipse(pos, y - 15, 30, 30);
+      strokeWeight(3);
+      line(pos, y, pos + x, y + 30);
+      line(pos, y - 30, pos + x, y - 60);
+      
+      this.angleY += this.aVelocityY;
+    }
+    pop()
+  }
 
+  update(){
+    this.xOffset += this.xSpeed;
+    this.yOffset += this.ySpeed;
+    
+    this.angleX += this.aVelocityX;
   }
 }
 
@@ -33,27 +57,10 @@ function draw() {
   background(255);
   
   // Update the translation offsets
-  xOffset += xSpeed;
-  yOffset += ySpeed;
+
   
-  angleX += aVelocityX;
-  
-  ellipseMode(CENTER);
-  stroke(0);
-  fill(175);
-  translate(xOffset, height / 2 + yOffset);
-  for (let pos = 200; pos <= width - 200; pos += 15) {
-    let x = amplitudeX * cos(angleX + pos / 25);
-    let y = amplitudeY * sin(angleY + pos / 150);
-    
-    strokeWeight(1);
-    ellipse(pos, y - 15, 30, 30);
-    strokeWeight(3);
-    line(pos, y, pos + x, y + 30);
-    line(pos, y - 30, pos + x, y - 60);
-    
-    angleY += aVelocityY;
-  }
+
+
 }
 
 /*
