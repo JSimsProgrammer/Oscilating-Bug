@@ -52,9 +52,11 @@ function draw() {
 /*
  TODO LIST:
  1. Convert to a class.
- 2. Make it wander in different dirrections.
- 3. This is the big step: I want it to stop go between very slowly and quickly oscilating. When it is moving slowly, it keeps a slow pace.
+ 2. Make it wander horizontally.
+ 3. Make it able to wander in different and even diagonal directions. 
+ 4. Reset it once it gets too far away.
+ 5. This is the big step: I want it to stop go between very slowly and quickly oscilating. When it is moving slowly, it keeps a slow pace.
     When it moves quickly though, it will zoom forward in a direction for a second. I want this to happen on random time intervals as well. 
     I have some ideas on how to make this happen.
-  4. Make a cluster of these things all working independently. This may need to happen after reading Chapter 4 of Nature of code.
+ 6. Make a cluster of these things all working independently. This may need to happen after reading Chapter 4 of Nature of code.
 */
