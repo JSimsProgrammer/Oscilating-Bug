@@ -115,7 +115,7 @@ class PVector {
 
 
 class Crawler {
-  constructor(segments, segmentSize, angleX, aVelocityX, amplitudeX, angleY, aVelocityY, amplitudeY, xOffset, xSpeed, yOffset, ySpeed, rotationAngle, angleSpeed){
+  constructor(segments, segmentSize, angleX, aVelocityX, amplitudeX, angleY, aVelocityY, amplitudeY, xOffset, xSpeed, yOffset, ySpeed){
     this.segments = segments;
     this.segmentSize = segmentSize;
 
@@ -127,23 +127,20 @@ class Crawler {
     this.aVelocityY = aVelocityY;
     this.amplitudeY = amplitudeY;
 
-    this.location = new Pv
-    this.xOffset = xOffset;
-    this.yOffset = yOffset;
-    this.xSpeed = xSpeed;
-    this.ySpeed = ySpeed;
-
-    this.rotationAngle = rotationAngle;
-    this.angleSpeed = angleSpeed; 
+    this.location = new PVector(xOffset, yOffset)
+    this.velocity = new PVector(xSpeed, ySpeed)
+    this.acceleration = new PVector(0,0);
+    
   } 
 
   display(){
+    let angle = atan2(this.velocity.y, this.velocity.x)
     ellipseMode(CENTER);
     stroke(0);
     fill(175);
     push()
-    translate(this.xOffset, height / 2 + this.yOffset);
-    rotate(radians(this.rotationAngle))
+    translate(this.location.x,height/2 + height / 4 + this.location.y);
+    rotate(angle)
     for (let pos = -200; pos <= width - width; pos += 15) {
       let x = this.amplitudeX * cos(this.angleX + pos / 25);
       let y = this.amplitudeY * sin(this.angleY + pos / 150);
@@ -161,9 +158,10 @@ class Crawler {
   }
 
   update(){
-    this.xOffset += this.xSpeed;
-    this.yOffset += this.ySpeed;
-    
+    this.velocity.add(this.acceleration)
+    this.velocity.limit(5);
+    this.location.add(this.velocity)
+
     this.angleX += this.aVelocityX;
   }
 }
@@ -174,7 +172,7 @@ function setup() {
 }
 
 //Instantiation
-let crawler = new Crawler(0, 0, 0, 0.1, 15, 0, .001, 150, 0, 1, 0, .2, 0, .003);
+let crawler = new Crawler(0, 0, 0, 0.1, 15, 0, .001, 150, 0, 1, 0, -1);
 
 function draw() {
   background(255);
