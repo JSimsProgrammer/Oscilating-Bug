@@ -1,4 +1,8 @@
 
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 // PVector class
 class PVector {
   constructor(x_, y_){
@@ -166,6 +170,25 @@ class Crawler {
   }
 
   reset() {
+    //If this is too far outside the canvas
+    if(this.location.x > width + 200 || this.location.x < -200|| this.location.y > height + 200 || this.location.y < -200) {
+      //Reset X to be a random value.
+      this.location.x =  getRandomInt(-50, width + 50);
+        //If X is inside the canvas, Reset Y to be above or below. If not, Y can be reset anywhere in defined boundaries
+        if(this.location.x < width && this.location.x > 0) {
+          let randInt = getRandomInt(1, 100);
+          if(randInt % 2  == 0) {
+            this.location.y = -50;
+          } else {
+            this.location = height + 50;
+          }
+        }
+
+    }
+        //If X is inside the canvas, Reset Y to be above or below. If not, Y can be reset anywhere in defined boundaries
+      //If X is on the left side of the canvas, make X speed positive. Else, make x speed negative. Use a range for these values.
+      //If Y is on the top of the cavas, make Yspeed positive. Else, MAke Y speed negative. Use a range for thse values.
+
 
   }
 }
