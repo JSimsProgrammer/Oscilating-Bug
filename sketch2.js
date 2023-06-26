@@ -1,7 +1,7 @@
 
 
 class Crawler {
-  constructor(segments, segmentSize, angleX, aVelocityX, amplitudeX, angleY, aVelocityY, amplitudeY, xOffset, xSpeed, xOffset, ySpeed){
+  constructor(segments, segmentSize, angleX, aVelocityX, amplitudeX, angleY, aVelocityY, amplitudeY, xOffset, xSpeed, yOffset, ySpeed){
     this.segments = segments;
     this.segmentSize = segmentSize;
 
@@ -13,10 +13,10 @@ class Crawler {
     this.aVelocityY = aVelocityY;
     this.amplitudeY = amplitudeY;
 
-    let xOffset = xOffset;
-    let yOffset = yOffset;
-    let xSpeed = xSpeed;
-    let ySpeed = ySpeed;
+    this.xOffset = xOffset;
+    this.yOffset = yOffset;
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
   } 
 
   display(){
@@ -24,7 +24,7 @@ class Crawler {
     stroke(0);
     fill(175);
     push()
-    translate(xOffset, height / 2 + this.yOffset);
+    translate(this.xOffset, height / 2 + this.yOffset);
     for (let pos = 200; pos <= width - 200; pos += 15) {
       let x = this.amplitudeX * cos(this.angleX + pos / 25);
       let y = this.amplitudeY * sin(this.angleY + pos / 150);
@@ -53,11 +53,14 @@ function setup() {
   background(255);
 }
 
+//Instantiation
+let crawler = new Crawler(0, 0, 0, 0.1, 15, 0, .001, 150, 0, 1, 0, .2);
+
 function draw() {
   background(255);
   
-  // Update the translation offsets
-
+  crawler.display();
+  crawler.update();
   
 
 
