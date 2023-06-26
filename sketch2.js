@@ -1,20 +1,27 @@
-let angleX = 0;
-let aVelocityX = 0.1;
-let amplitudeX = 15;
 
-let angleY = 0;
-let aVelocityY = 0.001;
-let amplitudeY = 150;
-
-let xOffset = 0;
-let yOffset = 0;
-let xSpeed = -2;
-let ySpeed = 0.2;
 
 class Crawler {
-  constructor(segments ,segmentSize){
+  constructor(segments, segmentSize, angleX, aVelocityX, amplitudeX, angleY, aVelocityY, amplitudeY, xOffset, xSpeed, xOffset, ySpeed){
+    this.segments = segments;
+    this.segmentSize = segmentSize;
 
-  }  
+    this.angleX = angleX;
+    this.aVelocityX = aVelocityX;
+    this.amplitudeX = amplitudeX;
+
+    this.angleY = angleY;
+    this.aVelocityY = aVelocityY;
+    this.amplitudeY = amplitudeY;
+
+    let xOffset = xOffset;
+    let yOffset = yOffset;
+    let xSpeed = xSpeed;
+    let ySpeed = ySpeed;
+  } 
+
+  display(){
+
+  }
 }
 
 function setup() {
@@ -51,7 +58,7 @@ function draw() {
 
 /*
  TODO LIST:
- 1. Convert to a class.
+ 1. Convert to a class. - IN PROGRESS
  2. Make it wander horizontally.
  3. Make it able to wander in different and even diagonal directions. 
  4. Reset it once it gets too far away.
