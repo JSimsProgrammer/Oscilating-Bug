@@ -3,9 +3,6 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function getLineLen(x1, y1, x2, y2) {
-  return Math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
-}
 
 // PVector class
 class PVector {
@@ -221,7 +218,7 @@ function setup() {
 let crawler = new Crawler(0, 0, 0, 0.1, 15, 0, .001, 150, 0, 1, 0, -1);
 
 function draw() {
-  //background(255);
+  background(255);
   
   crawler.display();
   crawler.update();
