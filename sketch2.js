@@ -3,6 +3,10 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function getLineLen(x1, y1, x2, y2) {
+  return Math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
+}
+
 // PVector class
 class PVector {
   constructor(x_, y_){
@@ -143,9 +147,9 @@ class Crawler {
     stroke(0);
     fill(175);
     push()
-    translate(this.location.x,height/2 + height / 4 + this.location.y);
+    translate(this.location.x, this.location.y);
     rotate(angle)
-    for (let pos = -200; pos <= width - width; pos += 15) {
+    for (let pos = -200; pos <= 0; pos += 15) {
       let x = this.amplitudeX * cos(this.angleX + pos / 25);
       let y = this.amplitudeY * sin(this.angleY + pos / 150);
       
@@ -156,9 +160,13 @@ class Crawler {
       line(pos, y - 30, pos + x, y - 60);
       
       this.angleY += this.aVelocityY;
-      this.rotationAngle += this. angleSpeed
+      console.log(y - this.location.y)
+
     }
     pop()
+
+    //ellipse(this.location.x, this.location.y, 50, 50)
+
   }
 
   update(){
@@ -171,25 +179,36 @@ class Crawler {
 
   reset() {
     //If this is too far outside the canvas
-    if(this.location.x > width + 200 || this.location.x < -200|| this.location.y > height + 200 || this.location.y < -200) {
+    if(this.location.x > width + 300 || this.location.x < -300|| this.location.y > height + 300 || this.location.y < -300) {
       //Reset X to be a random value.
       this.location.x =  getRandomInt(-50, width + 50);
-        //If X is inside the canvas, Reset Y to be above or below. If not, Y can be reset anywhere in defined boundaries
+        //If X is inside the canvas, Reset Y to be above or below. 
         if(this.location.x < width && this.location.x > 0) {
           let randInt = getRandomInt(1, 100);
           if(randInt % 2  == 0) {
             this.location.y = -50;
           } else {
-            this.location = height + 50;
+            this.location.y = height + 50;
           }
+        //Else, Y can be reset anywhere in defined boundaries
+        } else {
+          this.location.y =  getRandomInt(-50, height + 50);
         }
-
+      //If X is on the left side of the canvas, make X speed positive. 
+      if(this.location.x < width/2) {
+        this.velocity.x = getRandomInt(1, 5);
+      //Else, make x speed negative.  
+      } else {
+        this.velocity.x = getRandomInt(-5, -1);
+      }
+      //If Y is on the top of the cavas, make Yspeed positive. 
+      if(this.location.y < height/2){
+        this.velocity.y = getRandomInt(1, 5);
+        //Else, make Y speed negative. Use a range for thse values.
+      } else {
+        this.velocity.y = getRandomInt(-5, -1);
+      }
     }
-        //If X is inside the canvas, Reset Y to be above or below. If not, Y can be reset anywhere in defined boundaries
-      //If X is on the left side of the canvas, make X speed positive. Else, make x speed negative. Use a range for these values.
-      //If Y is on the top of the cavas, make Yspeed positive. Else, MAke Y speed negative. Use a range for thse values.
-
-
   }
 }
 
@@ -202,10 +221,11 @@ function setup() {
 let crawler = new Crawler(0, 0, 0, 0.1, 15, 0, .001, 150, 0, 1, 0, -1);
 
 function draw() {
-  background(255);
+  //background(255);
   
   crawler.display();
   crawler.update();
+  crawler.reset();
   
 
 
