@@ -1,6 +1,6 @@
 let screenWidth = window.innerWidth
 let screenHeight = window.innerHeight
-let numberOfBugs = 150
+let numberOfBugs = 15
 
 
 function getRandomInt(min, max) {
@@ -189,11 +189,12 @@ class Crawler {
       let y = this.amplitudeY * sin(this.angleY + pos / 150);
       
       strokeWeight(1);
-      fill(this.bodyColor[0], this.bodyColor[1], this.bodyColor[2]);
+      //fill(this.bodyColor[0], this.bodyColor[1], this.bodyColor[2]);
+      fill(this.location.y % 255, this.location.x % 255, Math.abs(this.location.x - this.location.y) % 255);
       stroke(0);
       ellipse(pos, y - 15, 30, 30);
       strokeWeight(3);
-      stroke(255);
+      stroke(this.location.x % 255, this.location.y % 255, (this.location.x + this.location.y) % 255);
       line(pos, y, pos + x, y + 30);
       line(pos, y - 30, pos + x, y - 60);
       
@@ -252,7 +253,7 @@ class Crawler {
 
 function setup() {
   createCanvas(screenWidth, screenHeight);
-  background(255);
+  background(0);
 }
 
 let crawlerList = []
@@ -265,7 +266,7 @@ for(let i = 0; i < numberOfBugs; i++) {
 }
 
 function draw() {
-  background(0);
+  //background(0);
   
   for(let i = 0; i < crawlerList.length; i++) {
     crawlerList[i].display();
