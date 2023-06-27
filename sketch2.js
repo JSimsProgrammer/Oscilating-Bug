@@ -221,7 +221,7 @@ function setup() {
 let crawler = new Crawler(0, 0, 0, 0.1, 15, 0, .001, 150, 0, 1, 0, -1);
 
 function draw() {
-  //background(255);
+  background(255);
   
   crawler.display();
   crawler.update();
