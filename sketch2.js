@@ -1,6 +1,7 @@
 let screenWidth = window.innerWidth
 let screenHeight = window.innerHeight
-let numberOfBugs = 15
+let topSpeed = 3
+let numberOfBugs = 5
 
 
 function getRandomInt(min, max) {
@@ -161,17 +162,17 @@ class Crawler {
       }
     //If X is on the left side of the canvas, make X speed positive. 
     if(this.location.x < screenWidth/2) {
-      this.velocity.x = getRandomInt(1, 5);
+      this.velocity.x = getRandomInt(1, topSpeed);
     //Else, make x speed negative.  
     } else {
-      this.velocity.x = getRandomInt(-5, -1);
+      this.velocity.x = getRandomInt(-topSpeed, -1);
     }
     //If Y is on the top of the cavas, make Yspeed positive. 
     if(this.location.y < screenHeight/2){
-      this.velocity.y = getRandomInt(1, 5);
+      this.velocity.y = getRandomInt(1, topSpeed);
       //Else, make Y speed negative. Use a range for thse values.
     } else {
-      this.velocity.y = getRandomInt(-5, -1);
+      this.velocity.y = getRandomInt(-topSpeed, -1);
     }  
   } 
 
@@ -208,7 +209,7 @@ class Crawler {
 
   update(){
     this.velocity.add(this.acceleration)
-    this.velocity.limit(5);
+    this.velocity.limit(topSpeed);
     this.location.add(this.velocity)
 
     this.angleX += this.aVelocityX;
@@ -233,17 +234,17 @@ class Crawler {
         }
       //If X is on the left side of the canvas, make X speed positive. 
       if(this.location.x < width/2) {
-        this.velocity.x = getRandomInt(1, 5);
+        this.velocity.x = getRandomInt(1, topSpeed);
       //Else, make x speed negative.  
       } else {
-        this.velocity.x = getRandomInt(-5, -1);
+        this.velocity.x = getRandomInt(-topSpeed, -1);
       }
       //If Y is on the top of the cavas, make Yspeed positive. 
       if(this.location.y < height/2){
-        this.velocity.y = getRandomInt(1, 5);
+        this.velocity.y = getRandomInt(1, topSpeed);
         //Else, make Y speed negative. Use a range for thse values.
       } else {
-        this.velocity.y = getRandomInt(-5, -1);
+        this.velocity.y = getRandomInt(-topSpeed, -1);
       }
 
       this.bodyColor = [getRandColorInt(), getRandColorInt(), getRandColorInt()]
@@ -273,6 +274,7 @@ function draw() {
     crawlerList[i].update();
     crawlerList[i].reset();
   }
+  console.log(getRandomInt(1, 10000))
 
 
 
