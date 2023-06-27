@@ -1,6 +1,14 @@
+let screenWidth = window.innerWidth
+let screenHeight = window.innerHeight
+let numberOfBugs = 150
+
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getRandColorInt() {
+  return Math.floor(Math.random() * 256);
 }
 
 
@@ -120,7 +128,7 @@ class PVector {
 
 
 class Crawler {
-  constructor(segments, segmentSize, angleX, aVelocityX, amplitudeX, angleY, aVelocityY, amplitudeY, xOffset, xSpeed, yOffset, ySpeed){
+  constructor(segments, segmentSize, angleX, aVelocityX, amplitudeX, angleY, aVelocityY, amplitudeY){
     this.segments = segments;
     this.segmentSize = segmentSize;
 
@@ -132,17 +140,47 @@ class Crawler {
     this.aVelocityY = aVelocityY;
     this.amplitudeY = amplitudeY;
 
-    this.location = new PVector(xOffset, yOffset)
-    this.velocity = new PVector(xSpeed, ySpeed)
+    this.location = new PVector(0, 0)
+    this.velocity = new PVector(0, 0)
     this.acceleration = new PVector(0,0);
-    
+
+    this.bodyColor = [getRandColorInt(), getRandColorInt(), getRandColorInt()]
+
+    this.location.x =  getRandomInt(-50, screenWidth + 50);
+    //If X is inside the canvas, Reset Y to be above or below. 
+    if(this.location.x < screenWidth && this.location.x > 0) {
+        let randInt = getRandomInt(1, 100);
+        if(randInt % 2  == 0) {
+          this.location.y = -50;
+        } else {
+          this.location.y = screenHeight + 50;
+        }
+      //Else, Y can be reset anywhere in defined boundaries
+      } else {
+        this.location.y =  getRandomInt(-50, screenHeight + 50);
+      }
+    //If X is on the left side of the canvas, make X speed positive. 
+    if(this.location.x < screenWidth/2) {
+      this.velocity.x = getRandomInt(1, 5);
+    //Else, make x speed negative.  
+    } else {
+      this.velocity.x = getRandomInt(-5, -1);
+    }
+    //If Y is on the top of the cavas, make Yspeed positive. 
+    if(this.location.y < screenHeight/2){
+      this.velocity.y = getRandomInt(1, 5);
+      //Else, make Y speed negative. Use a range for thse values.
+    } else {
+      this.velocity.y = getRandomInt(-5, -1);
+    }  
   } 
 
   display(){
     let angle = atan2(this.velocity.y, this.velocity.x)
     ellipseMode(CENTER);
-    stroke(0);
-    fill(175);
+    stroke(255);
+    console.log(this.bodyColor)
+    fill(this.bodyColor[0], this.bodyColor[1], this.bodyColor[2]);
     push()
     translate(this.location.x, this.location.y);
     rotate(angle)
@@ -151,14 +189,15 @@ class Crawler {
       let y = this.amplitudeY * sin(this.angleY + pos / 150);
       
       strokeWeight(1);
+      fill(this.bodyColor[0], this.bodyColor[1], this.bodyColor[2]);
+      stroke(0);
       ellipse(pos, y - 15, 30, 30);
       strokeWeight(3);
+      stroke(255);
       line(pos, y, pos + x, y + 30);
       line(pos, y - 30, pos + x, y - 60);
       
       this.angleY += this.aVelocityY;
-      console.log(y - this.location.y)
-
     }
     pop()
 
@@ -205,27 +244,43 @@ class Crawler {
       } else {
         this.velocity.y = getRandomInt(-5, -1);
       }
+
+      this.bodyColor = [getRandColorInt(), getRandColorInt(), getRandColorInt()]
     }
   }
 }
 
 function setup() {
-  createCanvas(1200, 1200);
+  createCanvas(screenWidth, screenHeight);
   background(255);
 }
 
+let crawlerList = []
+
 //Instantiation
-let crawler = new Crawler(0, 0, 0, 0.1, 15, 0, .001, 150, 0, 1, 0, -1);
+for(let i = 0; i < numberOfBugs; i++) {
+  let crawler = new Crawler(0, 0, 0, 0.1, 15, 0, .001, 150);
+  crawlerList.push(crawler);
+
+}
 
 function draw() {
-  background(255);
+  background(0);
   
-  crawler.display();
-  crawler.update();
-  crawler.reset();
-  
+  for(let i = 0; i < crawlerList.length; i++) {
+    crawlerList[i].display();
+    crawlerList[i].update();
+    crawlerList[i].reset();
+  }
 
 
+
+}
+
+function windowResized() {
+  screenWidth = window.innerWidth
+  screenHeight = window.innerHeight
+  resizeCanvas(screenWidth, screenHeight);
 }
 
 /*
