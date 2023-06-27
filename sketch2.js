@@ -1,5 +1,7 @@
-let screenWidth = window.innerWidth
-let screenHeight = window.innerHeight
+//let screenWidth = window.innerWidth
+//let screenHeight = window.innerHeight
+let screenWidth = 1200
+let screenHeight = 1200
 let topSpeed = 4
 let maxLength = 400
 let maxSize = 75
@@ -132,9 +134,9 @@ class PVector {
 
 class Crawler {
   constructor(angleX, aVelocityX, amplitudeX, angleY, aVelocityY, amplitudeY){
-    this.length = getRandomInt(10, maxLength);
-    this.size = getRandomInt(10, maxSize);
-    this.distance = this.size/2;
+    this.length = getRandomInt(5, maxLength);
+    this.size = getRandomInt(15, maxSize);
+    this.distance = this.size/ getRandomInt(2, 8);
 
     this.angleX = angleX;
     this.aVelocityX = aVelocityX;
@@ -189,25 +191,26 @@ class Crawler {
     translate(this.location.x, this.location.y);
     rotate(angle)
     for (let pos = -this.length - 10; pos <= -10; pos += this.distance) {
+      //let x = this.amplitudeX * cos(this.angleX + pos / 25);
       let x = this.amplitudeX * cos(this.angleX + pos / 25);
       let y = this.amplitudeY * sin(this.angleY + pos / 150);
       
       strokeWeight(1);
-      //fill(this.bodyColor[0], this.bodyColor[1], this.bodyColor[2]);
-      fill(this.location.y % 255, this.location.x % 255, Math.abs(this.location.x - this.location.y) % 255);
+      fill(this.bodyColor[0], this.bodyColor[1], this.bodyColor[2]);
+      //fill(this.location.y % 255, this.location.x % 255, Math.abs(this.location.x - this.location.y) % 255);
       stroke(0);
       ellipse(pos, y - (this.size/2), this.size, this.size);
       strokeWeight(3);
-      stroke(this.location.x % 255, this.location.y % 255, (this.location.x + this.location.y) % 255);
+      //stroke(255)
+      stroke(this.bodyColor[2], this.bodyColor[1], this.bodyColor[0])
+      //stroke(this.location.x % 255, this.location.y % 255, (this.location.x + this.location.y) % 255);
       line(pos, y, pos + x, y + this.size);
       line(pos, y - this.size, pos + x, y - (this.size*2));
       
       this.angleY += this.aVelocityY;
+
     }
     pop()
-
-    //ellipse(this.location.x, this.location.y, 50, 50)
-
   }
 
   update(){
@@ -251,9 +254,9 @@ class Crawler {
       }
 
       this.bodyColor = [getRandColorInt(), getRandColorInt(), getRandColorInt()]
-      this.length = getRandomInt(10, maxLength);
-      this.size = getRandomInt(10, maxSize);
-      this.distance = this.size/2;
+      this.length = getRandomInt(5, maxLength);
+      this.size = getRandomInt(15, maxSize);
+      this.distance = this.size/ getRandomInt(2, 8);
     }
   }
 }
@@ -280,7 +283,6 @@ function draw() {
     crawlerList[i].update();
     crawlerList[i].reset();
   }
-  console.log(getRandomInt(1, 10000))
 
 
 
@@ -300,7 +302,7 @@ function windowResized() {
  4. Reset it once it gets too far away and come back in a differnt spot, approaching at a different angle.
  5. Make a cluster of these things all working independently. This may need to happen after reading Chapter 4 of Nature of code. - DONE
  6. Make the cluster be all different shapes and sizes. - DONE
- 7. Link their oscilation to their movement speed. Get slope and somehow tie it in. 
+ 7. Link their oscilation to their movement speed. Get slope and somehow tie it in. - Decided against this.
  8. This is the big step: I want it to stop go between very slowly and quickly oscilating. When it is moving slowly, it keeps a slow pace.
     When it moves quickly though, it will zoom forward in a direction for a second. I want this to happen on random time intervals as well. 
     I have some ideas on how to make this happen.
