@@ -1,7 +1,9 @@
 let screenWidth = window.innerWidth
 let screenHeight = window.innerHeight
-let topSpeed = 3
-let numberOfBugs = 5
+let topSpeed = 4
+let maxLength = 400
+let maxSize = 75
+let numberOfBugs = 20
 
 
 function getRandomInt(min, max) {
@@ -129,9 +131,10 @@ class PVector {
 
 
 class Crawler {
-  constructor(segments, segmentSize, angleX, aVelocityX, amplitudeX, angleY, aVelocityY, amplitudeY){
-    this.segments = segments;
-    this.segmentSize = segmentSize;
+  constructor(angleX, aVelocityX, amplitudeX, angleY, aVelocityY, amplitudeY){
+    this.length = getRandomInt(10, maxLength);
+    this.size = getRandomInt(10, maxSize);
+    this.distance = this.size/2;
 
     this.angleX = angleX;
     this.aVelocityX = aVelocityX;
@@ -185,7 +188,7 @@ class Crawler {
     push()
     translate(this.location.x, this.location.y);
     rotate(angle)
-    for (let pos = -200; pos <= 0; pos += 15) {
+    for (let pos = -this.length - 10; pos <= -10; pos += this.distance) {
       let x = this.amplitudeX * cos(this.angleX + pos / 25);
       let y = this.amplitudeY * sin(this.angleY + pos / 150);
       
@@ -193,11 +196,11 @@ class Crawler {
       //fill(this.bodyColor[0], this.bodyColor[1], this.bodyColor[2]);
       fill(this.location.y % 255, this.location.x % 255, Math.abs(this.location.x - this.location.y) % 255);
       stroke(0);
-      ellipse(pos, y - 15, 30, 30);
+      ellipse(pos, y - (this.size/2), this.size, this.size);
       strokeWeight(3);
       stroke(this.location.x % 255, this.location.y % 255, (this.location.x + this.location.y) % 255);
-      line(pos, y, pos + x, y + 30);
-      line(pos, y - 30, pos + x, y - 60);
+      line(pos, y, pos + x, y + this.size);
+      line(pos, y - this.size, pos + x, y - (this.size*2));
       
       this.angleY += this.aVelocityY;
     }
@@ -217,7 +220,7 @@ class Crawler {
 
   reset() {
     //If this is too far outside the canvas
-    if(this.location.x > width + 300 || this.location.x < -300|| this.location.y > height + 300 || this.location.y < -300) {
+    if(this.location.x > width + this.length || this.location.x < -this.length|| this.location.y > height + this.length || this.location.y < -this.length) {
       //Reset X to be a random value.
       this.location.x =  getRandomInt(-50, width + 50);
         //If X is inside the canvas, Reset Y to be above or below. 
@@ -248,6 +251,9 @@ class Crawler {
       }
 
       this.bodyColor = [getRandColorInt(), getRandColorInt(), getRandColorInt()]
+      this.length = getRandomInt(10, maxLength);
+      this.size = getRandomInt(10, maxSize);
+      this.distance = this.size/2;
     }
   }
 }
@@ -261,13 +267,13 @@ let crawlerList = []
 
 //Instantiation
 for(let i = 0; i < numberOfBugs; i++) {
-  let crawler = new Crawler(0, 0, 0, 0.1, 15, 0, .001, 150);
+  let crawler = new Crawler(0, 0.1, 15, 0, .001, 150);
   crawlerList.push(crawler);
 
 }
 
 function draw() {
-  //background(0);
+  background(0);
   
   for(let i = 0; i < crawlerList.length; i++) {
     crawlerList[i].display();
